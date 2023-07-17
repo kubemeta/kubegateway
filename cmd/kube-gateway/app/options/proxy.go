@@ -40,11 +40,11 @@ func NewProxyOptions() *ProxyOptions {
 }
 
 // Flags returns flags for a proxy by section name
-func (s *ProxyOptions) Flags() (fss cliflag.NamedFlagSets) {
+func (o *ProxyOptions) Flags() (fss cliflag.NamedFlagSets) {
 	fs := fss.FlagSet("proxy")
-	s.Authentication.AddFlags(fs)
-	s.Authorization.AddFlags(fs)
-	s.SecureServing.AddFlags(fs)
-	s.Logging.AddFlags(fs)
+	o.Authentication.AddFlags(fs)
+	o.Authorization.AddFlags(fs)
+	o.SecureServing.AddFlags(fs)
+	o.Logging.AddFlags(fs)
 	return
 }

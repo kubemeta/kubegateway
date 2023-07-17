@@ -46,7 +46,7 @@ func CreateProxyConfig(
 	controlplaneServerConfig *controlplaneserver.Config,
 ) (serverConfig *proxyserver.Config, lastErr error) {
 	recommendedConfig := apiserver.NewRecommendedConfig(scheme.Scheme, scheme.Codecs)
-	// NOTE: set loopback client config ortherwise error will occur when creating a new generic apiserver
+	// NOTE: set loopback client config otherwise error will occur when creating a new generic apiserver
 	recommendedConfig.LoopbackClientConfig = controlplaneServerConfig.RecommendedConfig.LoopbackClientConfig
 	// enable all master default api resources
 	recommendedConfig.Config.MergedResourceConfig = proxyserver.DefaultAPIResourceConfigSource()
@@ -143,7 +143,7 @@ func GetNativeOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common
 }
 
 // proxyHTTPErrorLogWriter serves as a bridge between the standard log package and the klog package.
-// It also filter out some noisy http error log
+// It also filters out some noisy http error log
 type proxyHTTPErrorLogWriter struct{}
 
 // Write implements the io.Writer interface.

@@ -79,7 +79,7 @@ func (a *MultiClusterSubjectAccessReviewAuthorizer) Authorize(ctx context.Contex
 	c, loaded := a.caches.Load(host)
 	if !loaded {
 		c, loaded = a.caches.LoadOrStore(host, cache.NewLRUExpireCache(8192))
-		// destry cache when cluster stopped
+		// destroy cache when cluster stopped
 		if !loaded {
 			go func() {
 				<-cluster.Context().Done()

@@ -575,7 +575,7 @@ func (c *ClusterInfo) addOrUpdateEndpoint(endpoint string, disabled bool) error 
 		proxyConfig:           &http2configCopy,
 		ProxyTransport:        ts,
 		proxyUpgradeConfig:    &upgradeConfigCopy,
-		PorxyUpgradeTransport: ts2,
+		ProxyUpgradeTransport: ts2,
 		clientset:             client,
 	}
 

@@ -121,7 +121,7 @@ func (d *dispatcher) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 
 	transport := endpoint.ProxyTransport
 	if httpstream.IsUpgradeRequest(req) {
-		transport = endpoint.PorxyUpgradeTransport
+		transport = endpoint.ProxyUpgradeTransport
 	}
 
 	ep, err := url.Parse(endpoint.Endpoint)

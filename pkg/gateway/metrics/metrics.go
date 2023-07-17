@@ -200,7 +200,7 @@ func RecordProxyRequestTermination(req *http.Request, code int, reason string) {
 	scope := CleanScope(requestInfo)
 	// We don't use verb from <requestInfo>, as for the healthy path
 	// MonitorRequest is called from InstrumentRouteFunc which is registered
-	// in installer.go with predefined list of verbs (different than those
+	// in installer.go with predefined list of verbs (different from those
 	// translated to RequestInfo).
 	// However, we need to tweak it e.g. to differentiate GET from LIST.
 	verb := canonicalVerb(strings.ToUpper(requestInfo.Verb), scope)

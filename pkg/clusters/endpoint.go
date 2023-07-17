@@ -50,7 +50,7 @@ type EndpointInfo struct {
 	// http2 proxy round tripper
 	ProxyTransport http.RoundTripper
 	// http1 proxy round tripper for websockt
-	PorxyUpgradeTransport http.RoundTripper
+	ProxyUpgradeTransport http.RoundTripper
 
 	clientset kubernetes.Interface
 
