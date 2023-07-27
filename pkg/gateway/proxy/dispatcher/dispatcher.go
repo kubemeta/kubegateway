@@ -67,7 +67,7 @@ func (d *dispatcher) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 		d.responseError(errors.NewInternalError(fmt.Errorf("no user info found in request context")), w, req, statusReasonInvalidRequestContext)
 		return
 	}
-	extraInfo, ok := request.ExtraReqeustInfoFrom(ctx)
+	extraInfo, ok := request.ExtraRequestInfoFrom(ctx)
 	if !ok {
 		d.responseError(errors.NewInternalError(fmt.Errorf("no extra request info found in request context")), w, req, statusReasonInvalidRequestContext)
 		return
@@ -143,7 +143,7 @@ func (d *dispatcher) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	location.RawQuery = req.URL.Query().Encode()
 
 	newReq, cancel := newRequestForProxy(location, req, extraInfo.Hostname)
-	// close this request if endpoint is stoped
+	// close this request if endpoint is stopped
 	go func() {
 		select {
 		case <-newReq.Context().Done():

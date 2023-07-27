@@ -86,8 +86,8 @@ func CreateProxyConfig(
 	}
 
 	// apply other useful options
-	recommenedOptions := buildProxyRecommenedOptions(o, controlplaneOptions)
-	if lastErr = recommenedOptions.ApplyTo(recommendedConfig, nil, nil); lastErr != nil {
+	recommendOptions := buildProxyRecommendOptions(o, controlplaneOptions)
+	if lastErr = recommendOptions.ApplyTo(recommendedConfig, nil, nil); lastErr != nil {
 		return
 	}
 
@@ -100,13 +100,13 @@ func CreateProxyConfig(
 	return serverConfig, nil
 }
 
-func buildProxyRecommenedOptions(o *options.ProxyOptions, controlplaneOptions *options.ControlPlaneServerRunOptions) *recommendedoptions.RecommendedOptions {
-	recommenedOptions := recommendedoptions.NewRecommendedOptions().WithProcessInfo(o.ProcessInfo)
-	recommenedOptions.ServerRun = controlplaneOptions.ServerRun
-	recommenedOptions.FeatureGate = controlplaneOptions.FeatureGate
-	recommenedOptions.Features = controlplaneOptions.Features
+func buildProxyRecommendOptions(o *options.ProxyOptions, controlplaneOptions *options.ControlPlaneServerRunOptions) *recommendedoptions.RecommendedOptions {
+	recommendOptions := recommendedoptions.NewRecommendedOptions().WithProcessInfo(o.ProcessInfo)
+	recommendOptions.ServerRun = controlplaneOptions.ServerRun
+	recommendOptions.FeatureGate = controlplaneOptions.FeatureGate
+	recommendOptions.Features = controlplaneOptions.Features
 	// TODO: add other config
-	return recommenedOptions
+	return recommendOptions
 }
 
 func buildProxyHandlerChainFunc(clusterManager clusters.Manager, enableAccessLog bool) func(apiHandler http.Handler, c *genericapiserver.Config) http.Handler {
@@ -122,7 +122,7 @@ func buildProxyHandlerChainFunc(clusterManager clusters.Manager, enableAccessLog
 		failedHandler = genericapifilters.WithFailedAuthenticationAudit(failedHandler, c.AuditBackend, c.AuditPolicyChecker)
 		handler = genericapifilters.WithAuthentication(handler, c.Authentication.Authenticator, failedHandler, c.Authentication.APIAudiences)
 		handler = genericfilters.WithCORS(handler, c.CorsAllowedOriginList, nil, nil, nil, "true")
-		// disabel timeout, let upstream cluster handle it
+		// disable timeout, let upstream cluster handle it
 		// handler = gatewayfilters.WithTimeoutForNonLongRunningRequests(handler, c.LongRunningFunc, c.RequestTimeout)
 		handler = genericfilters.WithWaitGroup(handler, c.LongRunningFunc, c.HandlerChainWaitGroup)
 		// new gateway handler chain

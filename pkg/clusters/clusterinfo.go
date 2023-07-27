@@ -85,7 +85,6 @@ func (s *endpointPickStrategy) Pop() (*EndpointInfo, error) {
 	if len(readyEndpoints) == 1 {
 		return readyEndpoints[0], nil
 	}
-
 	// TODO: apply strategy
 	key := fmt.Sprintf("%v", readyEndpoints)
 	var i uint64
@@ -121,9 +120,9 @@ type ClusterInfo struct {
 
 	// upstream endpoint client rest config, the host must be replaced when using it
 	restConfig *rest.Config
-	// current synced flow controler spec
+	// current synced flow controller spec
 	currentFlowControlSpec atomic.Value
-	// current synced tls config for secure seving
+	// current synced tls config for secure serving
 	currentSecureServingTLSConfig atomic.Value
 	// current dispatch policies
 	currentDispatchPolicies atomic.Value
@@ -142,7 +141,7 @@ type secureServingConfig struct {
 	verifyOptions *x509.VerifyOptions
 }
 
-// NewEmptyClusterInfo creates a empty ClusterInfo without UpstreamCluster information such as endpoints
+// NewEmptyClusterInfo creates an empty ClusterInfo without UpstreamCluster information such as endpoints
 func NewEmptyClusterInfo(clusterName string, config *rest.Config, healthCheck EndpointHealthCheck) *ClusterInfo {
 	clusterName = strings.ToLower(clusterName)
 	ctx, cancel := context.WithCancel(context.Background())
@@ -484,7 +483,7 @@ func (c *ClusterInfo) Stop() {
 	}
 }
 
-// MatchAttributes matches a requestAttributes from reqeust and return a flowcontrol and endpointPicker
+// MatchAttributes matches a requestAttributes from request and return a flowcontrol and endpointPicker
 func (c *ClusterInfo) MatchAttributes(requestAttributes authorizer.Attributes) (EndpointPicker, error) {
 	policies := c.loadDispatchPolicies()
 	logging := c.loadLoggingConfig()
@@ -504,6 +503,7 @@ func (c *ClusterInfo) MatchAttributes(requestAttributes authorizer.Attributes) (
 		result.upstreams = policy.UpstreamSubset
 	} else {
 		result.upstreams = c.AllEndpoints()
+		sort.Strings(result.upstreams)
 	}
 
 	return result, nil

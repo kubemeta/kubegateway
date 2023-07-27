@@ -42,8 +42,8 @@ func NewControlPlaneOptions() *ControlPlaneOptions {
 	recommended := apiserveroptions.NewRecommendedOptions().
 		WithAll().
 		WithProcessInfo(genericoptions.NewProcessInfo("kube-gateway", "kube-system"))
-	// with out secure serving
 
+	// without secure serving
 	recommended.SecureServing = nil
 	return &ControlPlaneOptions{
 		RecommendedOptions: recommended,

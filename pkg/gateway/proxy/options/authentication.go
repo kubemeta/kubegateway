@@ -57,11 +57,11 @@ func (o *AuthenticationOptions) ToAuthenticationConfig(
 	controlplaneAutheNConfig authenticator.Config,
 	sniVerifyOptionsProvider x509.SNIVerifyOptionsProvider,
 	clientProvider clusters.ClientProvider,
-) (*proxyauthenticator.AuthenricatorConfig, error) {
+) (*proxyauthenticator.AuthenticatorConfig, error) {
 	if o == nil {
 		return nil, nil
 	}
-	cfg := proxyauthenticator.AuthenricatorConfig{
+	cfg := proxyauthenticator.AuthenticatorConfig{
 		TokenSuccessCacheTTL: o.TokenSuccessCacheTTL,
 		TokenFailureCacheTTL: o.TokenFailureCacheTTL,
 		APIAudiences:         controlplaneAutheNConfig.GetAPIAudiences(),
@@ -84,7 +84,7 @@ func (o *AuthenticationOptions) ToAuthenticationConfig(
 		if cfg.ClientCert == nil {
 			cfg.ClientCert = &proxyauthenticator.ClientCertAuthenticationConfig{}
 		}
-		cfg.ClientCert.SNIVerifyOptionsPorvider = sniVerifyOptionsProvider
+		cfg.ClientCert.SNIVerifyOptionsProvider = sniVerifyOptionsProvider
 	}
 
 	if clientProvider != nil {

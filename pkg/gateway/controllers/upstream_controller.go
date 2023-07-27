@@ -208,6 +208,7 @@ func GatewayHealthCheck(e *clusters.EndpointInfo) (done bool) {
 		result.StatusCode(&statusCode)
 		if statusCode == http.StatusOK {
 			e.UpdateStatus(true, "", "")
+			done = true
 			return done
 		}
 		reason = "NotReady"

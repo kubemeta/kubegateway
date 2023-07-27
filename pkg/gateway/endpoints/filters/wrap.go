@@ -21,7 +21,7 @@ import (
 	"k8s.io/klog"
 )
 
-// WithNoLoggingPanicRecovery wraps an http Handler to recover and log panics (except in the special case of http.ErrAbortHandler panics, which suppress logging).
+// WithNoLoggingPanicRecovery wraps a http Handler to recover and log panics (except in the special case of http.ErrAbortHandler panics, which suppress logging).
 func WithNoLoggingPanicRecovery(handler http.Handler) http.Handler {
 	return withNoLoggingPanicRecovery(handler, func(w http.ResponseWriter, req *http.Request, err interface{}) {
 		if err == http.ErrAbortHandler {

@@ -38,20 +38,20 @@ type ClientCertAuthenticationConfig struct {
 	// Generally this is the CA bundle file used to authenticate client certificates
 	// If this is nil, then mTLS will not be used.
 	CAContentProvider authenticatorfactory.CAContentProvider
-	// SNIVerifyOptionsPorvider provides dynamic verifyOptions for each sni hostname
-	SNIVerifyOptionsPorvider x509.SNIVerifyOptionsProvider
+	// SNIVerifyOptionsProvider provides dynamic verifyOptions for each sni hostname
+	SNIVerifyOptionsProvider x509.SNIVerifyOptionsProvider
 }
 
 func (c *ClientCertAuthenticationConfig) New() authenticator.Request {
 	if c == nil {
 		return nil
 	}
-	if c.CAContentProvider != nil && c.SNIVerifyOptionsPorvider != nil {
-		return x509.NewSNIDynamic(c.SNIVerifyOptionsPorvider.SNIVerifyOptions, c.CAContentProvider.VerifyOptions, x509.CommonNameUserConversion)
-	} else if c.CAContentProvider != nil && c.SNIVerifyOptionsPorvider == nil {
+	if c.CAContentProvider != nil && c.SNIVerifyOptionsProvider != nil {
+		return x509.NewSNIDynamic(c.SNIVerifyOptionsProvider.SNIVerifyOptions, c.CAContentProvider.VerifyOptions, x509.CommonNameUserConversion)
+	} else if c.CAContentProvider != nil && c.SNIVerifyOptionsProvider == nil {
 		return x509.NewDynamic(c.CAContentProvider.VerifyOptions, x509.CommonNameUserConversion)
-	} else if c.CAContentProvider == nil && c.SNIVerifyOptionsPorvider != nil {
-		return x509.NewSNIDynamic(c.SNIVerifyOptionsPorvider.SNIVerifyOptions, nil, x509.CommonNameUserConversion)
+	} else if c.CAContentProvider == nil && c.SNIVerifyOptionsProvider != nil {
+		return x509.NewSNIDynamic(c.SNIVerifyOptionsProvider.SNIVerifyOptions, nil, x509.CommonNameUserConversion)
 	}
 	return nil
 }
@@ -62,9 +62,9 @@ type TokenAuthenticationConfig struct {
 	ClusterClientProvider clusters.ClientProvider
 }
 
-// AuthenricatorConfig is the minimal configuration needed to create an authenticator
+// AuthenticatorConfig is the minimal configuration needed to create an authenticator
 // built to delegate authentication to upstream kube API servers
-type AuthenricatorConfig struct {
+type AuthenticatorConfig struct {
 	RequestHeaderConfig *authenticatorfactory.RequestHeaderConfig
 
 	ClientCert *ClientCertAuthenticationConfig
@@ -79,7 +79,7 @@ type AuthenricatorConfig struct {
 	Anonymous bool
 }
 
-func (c AuthenricatorConfig) New() (authenticator.Request, *spec.SecurityDefinitions, error) {
+func (c AuthenticatorConfig) New() (authenticator.Request, *spec.SecurityDefinitions, error) {
 	authenticators := []authenticator.Request{}
 	securityDefinitions := spec.SecurityDefinitions{}
 

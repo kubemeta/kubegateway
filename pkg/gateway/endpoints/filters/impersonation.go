@@ -42,8 +42,8 @@ const (
 	resourceServiceAccounts = "serviceaccounts"
 )
 
-// the fllowing code is copied from k8s.io/apiserver/pkg/endpoint/filters/impersonation.go and delete httplog for proxy
-//
+// the following code is copied from k8s.io/apiserver/pkg/endpoint/filters/impersonation.go and delete httplog for proxy
+
 // WithNoLoggingImpersonation is a filter that will inspect and check requests that attempt to change the user.Info for their requests
 func WithNoLoggingImpersonation(handler http.Handler, a authorizer.Authorizer, s runtime.NegotiatedSerializer) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {

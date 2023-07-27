@@ -36,14 +36,14 @@ ensure_kind_cluster() {
             kubectl --context="${context_name}" delete statefulset kubegateway
         fi
     else
-        kind create cluster --name=${kind_cluster_name}
+        kind create cluster --name=${kind_cluster_name} --config ${BASE_SOURCE_ROOT}/hack/kind-config.yaml
     fi
 }
 
 get_upstream_pki_kind() {
     [ -d "${UPSTREAM_CONF_DIR}" ] || mkdir -p "${UPSTREAM_CONF_DIR}"
 
-    echo ">> get upstream pki fron kind, output path ${UPSTREAM_CONF_DIR}"
+    echo ">> get upstream pki from kind, output path ${UPSTREAM_CONF_DIR}"
 
     local kind_docker=$(docker ps --filter "name=${kind_cluster_name}-control-plane" --format "{{.ID}}")
 
@@ -74,7 +74,7 @@ gen_gateway_pki() {
 }
 
 gen_gateway_server_cert() {
-    KUBERNETES_HOSTNAMES=kubernetes,kubernetes.default,kubernetes.default.svc,kubernetes.default.svc.cluster,kubernetes.svc.cluster.local,localhost,host.minikube.internal
+    KUBERNETES_HOSTNAMES=*.kubegateway.io,kubernetes,kubernetes.default,kubernetes.default.svc,kubernetes.default.svc.cluster,kubernetes.svc.cluster.local,localhost,host.minikube.internal
 
     cat >"${GATEWAY_CONF_DIR}"/kubegateway-csr.json <<EOF
 {

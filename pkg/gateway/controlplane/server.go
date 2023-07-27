@@ -15,7 +15,6 @@
 package server
 
 import (
-	"github.com/kubewharf/apiserver-runtime/pkg/server"
 	apiserver "github.com/kubewharf/apiserver-runtime/pkg/server"
 	corerestplugin "github.com/kubewharf/apiserver-runtime/plugin/registry/core/rest"
 	corev1 "k8s.io/api/core/v1"
@@ -83,7 +82,7 @@ func (c *CompletedConfig) New(delegationTarget genericapiserver.DelegationTarget
 
 	// Install Legacy APIs
 	// we only need namespace, secret, serviceaccount and rbac in control plane registry
-	legacyRESTStorageProviders := []server.LegecyRESTStorageProvider{
+	legacyRESTStorageProviders := []apiserver.LegecyRESTStorageProvider{
 		corerestplugin.NamepsaceLegacyRESTStorageProvider{},
 		corerestplugin.SecretLegacyRESTStorageProvider{},
 		corerestplugin.ServiceAccountLegacyRESTStorageProvider{},

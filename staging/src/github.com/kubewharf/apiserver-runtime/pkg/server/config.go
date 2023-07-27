@@ -70,7 +70,7 @@ type extraConfig struct {
 	// DefaultStorageFactory
 	StorageFactory storage.StorageFactory
 
-	// RESTStorageOptionsFactory knowns how to create rest storage
+	// RESTStorageOptionsFactory known how to create rest storage
 	RESTStorageOptionsFactory *registry.RESTStorageOptionsFactory
 }
 

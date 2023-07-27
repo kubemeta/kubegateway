@@ -50,7 +50,7 @@ const (
 )
 
 // RecommendedOptions contains the recommended options for running an API server.
-// Each of them can be nil to leave the feature unconfigured on ApplyTo.
+// Each of them can be nil to leave the feature unconfirmed on ApplyTo.
 // This options omit authentication and authorization options from genericoptions.RecommendedOptions
 // You should wrap this options to construct your own
 type RecommendedOptions struct {
@@ -158,6 +158,7 @@ func (o *RecommendedOptions) WithBackendAPI() *RecommendedOptions {
 	o.BackendAPI = NewBackendAPIOptions()
 	return o
 }
+
 func (o *RecommendedOptions) WithFeatures() *RecommendedOptions {
 	o.Features = genericoptions.NewFeatureOptions()
 	return o
@@ -165,7 +166,7 @@ func (o *RecommendedOptions) WithFeatures() *RecommendedOptions {
 
 func (o *RecommendedOptions) WithFeatureGate() *RecommendedOptions {
 	// Wired a global by default that sadly people will abuse to have different meanings in different repos.
-	// Please consider creating your own FeatureGate so you can have a consistent meaning for what a variable contains
+	// Please consider creating your own FeatureGate so that you can have a consistent meaning for what a variable contains
 	// across different repos.  Future you will thank you.
 	o.FeatureGate = feature.DefaultFeatureGate
 	return o
@@ -284,7 +285,7 @@ func (o *RecommendedOptions) Complete() error {
 	return nil
 }
 
-// Sometimes you need to apply secure serving options firstly to get loopbackClientConfig
+// ApplySecureServingTo Sometimes you need to apply secure serving options firstly to get loopbackClientConfig
 func (o *RecommendedOptions) ApplySecureServingTo(recommended *server.RecommendedConfig, tweakLoopbackConfig func(*rest.Config)) error {
 	if o.SecureServing == nil {
 		return nil
